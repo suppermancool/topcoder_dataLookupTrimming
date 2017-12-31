@@ -1,18 +1,20 @@
-exports.trim = trimWithMask
+var _ = require('lodash');
+exports.trim = trimWithMaskCredit
 
-const hdLine = "Line";
-const hdRecordID = "Record ID";
-const hdType = "Type";
-const hdReplacedStr = "Replaced string";
-const hdReplacedBy = "Replaced by";
-const hdContext = "Context";
-const headers = [hdLine, hdRecordID, hdType, hdReplacedStr, hdReplacedBy, hdContext ];
+const logHdLine = "Line";
+const logHdRecordID = "Record ID";
+const logHdType = "Type";
+const logHdReplacedStr = "Replaced string";
+const logHdReplacedBy = "Replaced by";
+const logHdContext = "Context";
+const strResult = "StrResult";
+const headers = [logHdLine, logHdRecordID, logHdType, logHdReplacedStr, logHdReplacedBy, logHdContext ];
 exports.headers = headers
 
-var mask = "";
+var maskCredit = "";
 var iLine = 0;
-function trimWithMask(string, _mask, _iLine) {
-    mask = _mask;
+function trimWithMaskCredit(string, _mask, _iLine) {
+    maskCredit = _mask;
     iLine = _iLine;
     let res = trim(string);
     return res;
@@ -43,11 +45,13 @@ function ruleCreditcard(res) {
         return res;
     }
     value = values[1];
+    var strResult = value;
     const lineId = values[0];
 
     var cards = []
-    for (var i = 0; i < filter.length; i++) {
+    _.times(filter.length, function(i){
         const regex = filter[i].regexCar
+        strResult = strResult.replace(regex, maskCredit);
         const numberOfChar = filter[i].numberOfChar
         while ((match = regex.exec(value)) != null) {
             const from = Math.max(1, match.index - 25);
@@ -55,15 +59,16 @@ function ruleCreditcard(res) {
             var trimDone = {}
             var card = match[0];
             var context = value.substring(from, to)
-            context = context.replace(card,mask);
-            trimDone[hdRecordID] = lineId;
-            trimDone[hdType] = "account number";
-            trimDone[hdReplacedBy] = mask;
-            trimDone[hdReplacedStr] = card;
-            trimDone[hdLine] = iLine;
-            trimDone[hdContext] = '"' + context + '"';
+            context = context.replace(card,maskCredit);
+            trimDone[logHdRecordID] = lineId;
+            trimDone[logHdType] = "account number";
+            trimDone[logHdReplacedBy] = maskCredit;
+            trimDone[logHdReplacedStr] = card;
+            trimDone[logHdLine] = iLine;
+            trimDone[logHdContext] = '"' + context + '"';
             res.trimsDone.push(trimDone);
         }
-    }
+    });
+    res.value = lineId + "," + strResult;
     return res;
 }

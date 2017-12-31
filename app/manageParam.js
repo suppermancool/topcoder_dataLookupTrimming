@@ -20,12 +20,19 @@ const optionDefinitions = [
         description: 'Path to output csv file. Default value: ' +  defaultConfig.exportCsvPath
     },
     { 
-        name: 'mask', 
+        name: 'outputlog', 
         type: String, 
-        alias: 'm',
+        alias: 'l',
+        typeLabel: '[underline]{path}', 
+        defaultValue: defaultConfig.exportCsvLogPath, 
+        description: 'Path to output csv log file. Default value: ' +  defaultConfig.exportCsvLogPath
+    },
+    { 
+        name: 'maskcreditcard', 
+        type: String,
         typeLabel: '[underline]{string}', 
-        defaultValue: defaultConfig.mask, 
-        description: 'Mask to replace real card number. Default value: ' +  defaultConfig.mask
+        defaultValue: defaultConfig.maskCreditCard, 
+        description: 'Mask to replace real card number. Default value: ' +  defaultConfig.maskCreditCard
         },
     { 
         name: 'help', 

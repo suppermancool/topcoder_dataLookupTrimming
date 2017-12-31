@@ -3,23 +3,26 @@ const fs = require('fs')
     , util = require('util')
     , stream = require('stream')
     , es = require('event-stream');
+var _ = require('lodash');
 
-exports.trimming = function(inputPath, exportPath, mask) {
+exports.trimming = function(inputPath, exportPath, exportLogPath, maskcreditcard) {
     var exportStream = fs.createWriteStream(exportPath, null);
-    exportHeader(exportStream, trim.headers);
+    var exportLogStream = fs.createWriteStream(exportLogPath, null);
+    exportHeader(exportLogStream, trim.headers);
     var iLine = 0;
     var nReplace = 0;
 
     console.time("Processing completed in");
     streamInputFile(inputPath, function(line){
-        let trimLine = trim.trim(line, mask, iLine);
+        let trimLine = trim.trim(line, maskcreditcard, iLine);
         iLine += 1;
         let length = trimLine.trimsDone.length;
         nReplace += length;
-        for (var i = 0; i < length; i++) {
+        _.times(length, function(i){
             var trimDone = trimLine.trimsDone[i];
-            exportFile(exportStream, trimDone, trim.headers);
-        }
+            exportFile(exportLogStream, trimDone, trim.headers);
+        });
+        exportFileByLine(exportStream, trimLine.value);
     }, function() {
         // finish
         console.timeEnd("Processing completed in");
@@ -30,24 +33,23 @@ exports.trimming = function(inputPath, exportPath, mask) {
 }
 
 function exportHeader(fileStream, headers ){
+    
     var value = "";
-    for (var i = 0; i < headers.length; i++) {
-        if (i != 0) {
+    _.times(headers.length, function(i){
+        if (i != 0)
             value += ",";
-        }
         value += headers[i];
-    }
+    });
     exportFileByLine(fileStream, value);
 }
 
 function exportFile(fileStream, objectLine, headers ){
     var value = "";
-    for (var i = 0; i < headers.length; i++) {
-        if (i != 0) {
+    _.times(headers.length, function(i){
+        if (i != 0)
             value += ",";
-        }
         value += objectLine[headers[i]];
-    }
+    });
     exportFileByLine(fileStream, value);
 }
 
@@ -62,9 +64,9 @@ function streamInputFile(file, oneLineCB, finish){
         .pipe(es.mapSync(function(line){
             // pause the readstream
             s.pause();
-            if (line != "") {
-                oneLineCB(line);
-            }
+            // if (line != "") {
+            oneLineCB(line);
+            // }
             // resume the readstream, possibly from a callback
             s.resume();
         })
