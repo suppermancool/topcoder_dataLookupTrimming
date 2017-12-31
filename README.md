@@ -28,7 +28,7 @@ Run app with input=rc/pci_example.csv, output=rc/export_pci.csv, output log=rc/e
   > npm run main -- -i "rc/pci_example.csv" -o "rc/export_pci.csv" -l "rc/export_pci_log.csv" --maskcreditcard "<CREDIT_CARD>"
 
 
-  ## project structure
+  ## Project structure
   - Scripts are in "app".
   - trim function is in "manageTrim.js".
   - CSV example files are in "rc".
