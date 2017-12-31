@@ -25,7 +25,7 @@ exports.trimming = function(inputPath, exportPath, exportLogPath, maskcreditcard
         });
         exportFileByLine(exportStream, trimLine.value);
     }, function() {
-        // finish
+        // finish success
         console.timeEnd("Processing completed in");
         console.log("Number of records processed: " + iLine);
         console.log("Number of replacements done: " + nReplace);
@@ -65,10 +65,7 @@ function streamInputFile(file, oneLineCB, finish){
         .pipe(es.mapSync(function(line){
             // pause the readstream
             s.pause();
-            // if (line != "") {
             oneLineCB(line);
-            // }
-            // resume the readstream, possibly from a callback
             s.resume();
         })
         .on('error', function(err){

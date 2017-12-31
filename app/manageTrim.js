@@ -43,12 +43,12 @@ function ruleCreditcard(res) {
         {regexCar: /(\d{4}[:\s-]+\d{11})/g,numberOfChar: 16},
     ]
 
+    // slipt to get line id and str result from csv line
     var values = value.split(new RegExp(',' + '(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)'));
     if (values.length < 2) {
         return res;
     }
-    value = values[1];
-    var strResult = value;
+    var strResult = values[1];
     const lineId = values[0];
 
     var cards = []
