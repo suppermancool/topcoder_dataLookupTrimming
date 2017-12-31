@@ -28,16 +28,19 @@ function trim(string) {
 
 function ruleCreditcard(res) {
     var value = res.value
-    
     const filter = [
-        {
-            regexCar: /(\d{16})/g,
-            numberOfChar: 16
-        },
-        {
-            regexCar: /(\d{4}[\s-]+\d{4}[\s-]+\d{4}[\s-]+\d{4})/g,
-            numberOfChar: 19
-        }
+        {regexCar: /(\d{19})/g,numberOfChar: 19},
+        {regexCar: /(\d{18})/g,numberOfChar: 18},
+        {regexCar: /(\d{17})/g,numberOfChar: 17},
+        {regexCar: /(\d{16})/g,numberOfChar: 16},
+        {regexCar: /(\d{15})/g,numberOfChar: 15},
+        {regexCar: /(\d{14})/g,numberOfChar: 14},
+        {regexCar: /(\d{13})/g,numberOfChar: 13},
+        {regexCar: /(\d{12})/g,numberOfChar: 12},
+        {regexCar: /(\d{4}[:\s-]+\d{4}[:\s-]+\d{4}[:\s-]+\d{4})/g,numberOfChar: 19},
+        {regexCar: /(\d{4}[:\s-]+\d{4}[:\s-]+\d{4}[:\s-]+\d{3})/g,numberOfChar: 18},
+        {regexCar: /(\d{8}[:\s-]+\d{8})/g,numberOfChar: 17},
+        {regexCar: /(\d{4}[:\s-]+\d{11})/g,numberOfChar: 16},
     ]
 
     var values = value.split(new RegExp(',' + '(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)'));
@@ -51,14 +54,13 @@ function ruleCreditcard(res) {
     var cards = []
     _.times(filter.length, function(i){
         const regex = filter[i].regexCar
-        strResult = strResult.replace(regex, maskCredit);
         const numberOfChar = filter[i].numberOfChar
-        while ((match = regex.exec(value)) != null) {
+        while ((match = regex.exec(strResult)) != null) {
             const from = Math.max(1, match.index - 25);
-            const to = Math.min(match.index + numberOfChar + 25, value.length - 1);
+            const to = Math.min(match.index + numberOfChar + 25, strResult.length - 1);
             var trimDone = {}
             var card = match[0];
-            var context = value.substring(from, to)
+            var context = strResult.substring(from, to)
             context = context.replace(card,maskCredit);
             trimDone[logHdRecordID] = lineId;
             trimDone[logHdType] = "account number";
@@ -68,6 +70,7 @@ function ruleCreditcard(res) {
             trimDone[logHdContext] = '"' + context + '"';
             res.trimsDone.push(trimDone);
         }
+        strResult = strResult.replace(regex, maskCredit);
     });
     res.value = lineId + "," + strResult;
     return res;
