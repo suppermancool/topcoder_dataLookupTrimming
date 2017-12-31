@@ -19,9 +19,9 @@ Params <br />
  <br />
  &nbsp;&nbsp;&nbsp;&nbsp;-i, --input :    Path to input csv file. Default value: rc/pci_example.csv <br />
 &nbsp;&nbsp;&nbsp;&nbsp;-o, --output :   Path to output csv file. Default value: rc/export_pci_example.csv <br />
-&nbsp;&nbsp;&nbsp;&nbsp;-l, --outputlog path      Path to output csv log file. Default value: rc/export_pci_example_log.csv <br />
-&nbsp;&nbsp;&nbsp;&nbsp;--maskcreditcard string   Mask to replace real card number. Default value: undefined <br />
-&nbsp;&nbsp;&nbsp;&nbsp;-h, --help :       Show params structure. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;-l, --outputlog :    Path to output csv log file. Default value: rc/export_pci_example_log.csv <br />
+&nbsp;&nbsp;&nbsp;&nbsp;--maskcreditcard :    Mask to replace real card number. Default value: undefined <br />
+&nbsp;&nbsp;&nbsp;&nbsp;-h, --help :    Show params structure. <br />
   
   ## Example for parameter
   Run app with input=rc/pci_example.csv, output=rc/export_pci.csv, output log=rc/export_pci_log.csv, mask for credit card = <CREDIT_CARD>:
