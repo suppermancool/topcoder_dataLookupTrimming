@@ -23,6 +23,12 @@ Params <br />
 &nbsp;&nbsp;&nbsp;&nbsp;--maskcreditcard :    Mask to replace real card number. Default value: <CREDIT_CARD> <br />
 &nbsp;&nbsp;&nbsp;&nbsp;-h, --help :    Show params structure. <br />
   
-  ## Example for parameter
-  Run app with input=rc/pci_example.csv, output=rc/export_pci.csv, output log=rc/export_pci_log.csv, mask for credit card = <CREDIT_CARD>:
+## Example for parameter
+Run app with input=rc/pci_example.csv, output=rc/export_pci.csv, output log=rc/export_pci_log.csv, mask for credit card = <CREDIT_CARD>:
   > npm run main -- -i "rc/pci_example.csv" -o "rc/export_pci.csv" -l "rc/export_pci_log.csv" --maskcreditcard "<CREDIT_CARD>"
+
+
+  ## Project structure
+  - Scripts are in "app".
+  - trim function is in "manageTrim.js".
+  - CSV example files are in "rc".
