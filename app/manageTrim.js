@@ -28,7 +28,7 @@ function trim(string) {
 
 function ruleCreditcard(res) {
     var value = res.value
-    const filter = [
+    const filters = [
         {regexCar: /(\d{19})/g,numberOfChar: 19},
         {regexCar: /(\d{18})/g,numberOfChar: 18},
         {regexCar: /(\d{17})/g,numberOfChar: 17},
@@ -52,11 +52,11 @@ function ruleCreditcard(res) {
     const lineId = values[0];
 
     var cards = []
-    _.times(filter.length, function(i){
-        const regex = filter[i].regexCar
-        const numberOfChar = filter[i].numberOfChar
+    _.forEach(filters, function(filter){
+        const regex = filter.regexCar
+        const numberOfChar = filter.numberOfChar
         while ((match = regex.exec(strResult)) != null) {
-            const from = Math.max(1, match.index - 25);
+            const from = Math.max(2, match.index - 25);
             const to = Math.min(match.index + numberOfChar + 25, strResult.length - 1);
             var trimDone = {}
             var card = match[0];
@@ -71,7 +71,7 @@ function ruleCreditcard(res) {
             res.trimsDone.push(trimDone);
         }
         strResult = strResult.replace(regex, maskCredit);
-    });
+    })
     res.value = lineId + "," + strResult;
     return res;
 }

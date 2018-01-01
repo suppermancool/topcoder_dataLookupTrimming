@@ -16,9 +16,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.1.2",
-    "event-stream": "^3.3.4"
+    "event-stream": "^3.3.4",
+    "jest-cli": "^22.0.4"
   },
   "scripts": {
+    "test": "jest",
     "main": "node app/main.js"
   },
   "author": "diazz",

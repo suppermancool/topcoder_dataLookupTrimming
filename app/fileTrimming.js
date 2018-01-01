@@ -18,11 +18,9 @@ exports.trimming = function(inputPath, exportPath, exportLogPath, maskcreditcard
         iLine += 1;
         let length = trimLine.trimsDone.length;
         nReplace += length;
-        
-        _.times(length, function(i){
-            var trimDone = trimLine.trimsDone[i];
+        _.forEach(trimLine.trimsDone, function(trimDone){
             exportFile(exportLogStream, trimDone, trim.headers);
-        });
+        })
         exportFileByLine(exportStream, trimLine.value);
     }, function() {
         // finish success
