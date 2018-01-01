@@ -27,8 +27,13 @@ Params <br />
 Run app with input=rc/pci_example.csv, output=rc/export_pci.csv, output log=rc/export_pci_log.csv, mask for credit card = <CREDIT_CARD>:
   > npm run main -- -i "rc/pci_example.csv" -o "rc/export_pci.csv" -l "rc/export_pci_log.csv" --maskcreditcard "<CREDIT_CARD>"
 
+## Test
+- Test files are in "app/test".
+Run test with:
+> npm run test
 
   ## Project structure
   - Scripts are in "app".
   - trim function is in "manageTrim.js".
   - CSV example files are in "rc".
+  - Test files are in "app/test".
